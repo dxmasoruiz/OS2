@@ -69,6 +69,7 @@ void add_boat_to_fleet(Fleet* fleet, Boat* boat) {
             fleet->boats[i] = boat;
             boat->in_fleet = 1;
             boat->available = 1;
+            printf("Boat %d has been added to the fleet.\n", boat->id);
             break;
         }
     }

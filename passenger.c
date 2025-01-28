@@ -35,15 +35,13 @@ void search_available_boat(Fleet* fleet) {
     Boat* selectedBoat = fleet->boats[randomBoat];
     if (selectedBoat == NULL)
     {
-        printf("Boat not ready yet ");
+        printf("Boat not ready yet \n");
         search_available_boat(fleet);
         
-    }
-    
+    }    
         //Here with a random possibility of 90 yes and 10 no the passengers decdes to continue to fleet or not
         int decision= random_boat_selector(pthread_self(), 10); 
-        if (decision<=9) {
-            
+        if (decision<=9) {            
             sem_wait(&selectedBoat->semaphore);
             if (selectedBoat->available==1)
             {
@@ -52,7 +50,7 @@ void search_available_boat(Fleet* fleet) {
                 pthread_mutex_unlock(capacityMutex);   
                 printf("Passenger is boarding boat %d. Remaining capacity: %d\n", selectedBoat->id, selectedBoat->capacity);
             }else{
-            printf("Boat is occupied returning");
+            printf("Boat is occupied returning\n");
             selectedBoat = NULL;
             }
          

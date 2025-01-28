@@ -20,7 +20,7 @@ void *boat_function() {
     add_boat_to_fleet(fleet, boat);
     int* current_value; 
 
-    while (passangers_saved < num_passengers && boat->in_fleet) {
+    while (passangers_saved < num_passengers) {
         
         if (boat->capacity == 0) {
             boat->available = 0;
@@ -67,9 +67,17 @@ int main(int argc, char *argv[]) {
 
     }
 
+    // I print the values of num_passengers, num_boats and seats_per_boat
+    printf("Number of passengers: %d\n", num_passengers);
+    printf("Number of boats: %d\n", num_boats);
+    printf("Number of seats per boat: %d\n", seats_per_boat);
+    printf("Passengers saved: %d\n", passangers_saved);
+
    pthread_t boat_threads[num_boats];
    pthread_t passenger_threads[num_passengers];
 
+
+    printf("Launching %d boats with %d seats each to save %d passengers.\n", num_boats, seats_per_boat, num_passengers);
     // Create boat threads
     for (int i = 0; i < num_boats; i++) {
         if (pthread_create(&boat_threads[i], NULL, boat_function, NULL) != 0) {
@@ -78,6 +86,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    printf("Launching %d passengers.\n", num_passengers);
     // Create passenger threads
     for (int i = 0; i < num_passengers; i++) {
         if (pthread_create(&passenger_threads[i], NULL, passenger_process, NULL) != 0) {
