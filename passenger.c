@@ -8,8 +8,8 @@
 #include "ipc_utils.h"
 
 #define MAX_PASSENGERS 100
-pthread_mutex_t* boardMutex = create_Mutex();
-pthread_mutex_t* capacityMutex = create_Mutex();
+pthread_mutex_t* boardMutex = create_mutex();
+pthread_mutex_t* capacityMutex = create_mutex();
 
 
 
@@ -25,12 +25,6 @@ Passenger* create_passenger() {
     return passenger;
 }
 
-void *passenger_process(void *arg) {
-    Passenger* passenger = create_passenger();
-    search_available_boat(fleet);
-    free(passenger);
-    return NULL;   
-}
 
 int random_boat_selector(int seed, int end) {
     srand(seed);
@@ -58,24 +52,31 @@ void search_available_boat(Fleet* fleet) {
                 pthread_mutex_lock(&capacityMutex);
                 selectedBoat->capacity--;
                 pthread_mutex_unlock(&capacityMutex);   
-                printf("Passenger is boarding boat %d. Remaining capacity: %d\n", boat->id, boat->capacity);
+                printf("Passenger is boarding boat %d. Remaining capacity: %d\n", boat->id, selectedBoat->capacity);
             }else{
             printf("Boat is occupied returning");
             selectedBoat = NULL;
             }
          
         }else {
-            printf("Passenger %d decided not to board boat %d\n", pthread_self(), boat->id);
+            printf("Passenger %d decided not to board boat %d\n", pthread_self(), selectedBoat->id);
         }
         
         
       
 
-    if (selected_boat == NULL) {
+    if (selectedBoat == NULL) {
         printf("No available boats. Waiting...\n");
         sleep(1);
         search_available_boat(fleet);
     }
+}
+
+void *passenger_process(void *arg) {
+    Passenger* passenger = create_passenger();
+    search_available_boat(fleet);
+    free(passenger);
+    return NULL;   
 }
 
 int main() {

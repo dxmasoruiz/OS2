@@ -61,7 +61,7 @@ Fleet* create_fleet(int num_boats, int seats_per_boat) {
 }
 
 void add_boat_to_fleet(Fleet* fleet, Boat* boat) {
-    pthread_mutex_lock(&fleet->mutex);
+    pthread_mutex_lock(fleet->mutex);
     for (int i = 0; i < fleet->num_boats; i++) {
         if (fleet->boats[i] == NULL) {
             fleet->boats[i] = boat;
@@ -70,5 +70,5 @@ void add_boat_to_fleet(Fleet* fleet, Boat* boat) {
             break;
         }
     }
-    pthread_mutex_unlock(&fleet->mutex);
+    pthread_mutex_unlock(fleet->mutex);
 }
