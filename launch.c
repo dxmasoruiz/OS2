@@ -16,37 +16,47 @@ int passangers_saved;
 pthread_mutex_t* savedLck;
 
 void *boat_function(int id) {
+    // Crear un nuevo barco
     Boat* boat = create_boat(seats_per_boat, id);
     add_boat_to_fleet(fleet, boat);
-    int* current_value; 
 
     while (passangers_saved < num_passengers) {
-        
+        // Si el barco está lleno
         if (boat->capacity == 0) {
             boat->available = 0;
-            printf("Boat is full, heading to the island.\n");
-            //Here i use the lock to the shared variable passengers saved it also works as simultaing the way to the island 
+            printf("Boat %d is full, heading to the island.\n", boat->id);
+
+            // Usar el lock para actualizar la variable compartida `passengers_saved`
             pthread_mutex_lock(savedLck);
             passangers_saved += seats_per_boat;
             pthread_mutex_unlock(savedLck);
-            //Here the boat comes from th eisland ready to pick up more passengers
-            // I adjust th esemafore to thr max value and althoug it should b 0 i in case check the current value for errors
-            sem_getvalue(&boat->semaphore,current_value);
-            int value = *current_value ;
+
+            // Aquí el barco regresa de la isla listo para recoger más pasajeros
+            // Ajustar el semáforo al valor máximo (seats_per_boat)
+            int current_value; // Variable para almacenar el valor actual del semáforo
+            sem_getvalue(&boat->semaphore, &current_value); // Obtener el valor actual
+            int value = current_value; // Usar el valor directamente
+
+            // Incrementar el semáforo hasta que alcance `seats_per_boat`
             while (value < seats_per_boat) {
-            sem_post(&boat->semaphore);
-            value++;
-            } 
-            boat->capacity = seats_per_boat; // Reset capacity for the next trip
-            printf("Boat %d has returned and is ready to board more passengers.\n",boat->id);
+                sem_post(&boat->semaphore);
+                value++;
+            }
+
+            // Reiniciar la capacidad del barco para el próximo viaje
+            boat->capacity = seats_per_boat;
+            printf("Boat %d has returned and is ready to board more passengers.\n", boat->id);
             boat->available = 1;
         }
     }
-    printf("Boat %d has helped saving  all passengers and is retiring.\n", boat->id);
+
+    // Cuando todos los pasajeros han sido salvados
+    printf("Boat %d has helped save all passengers and is retiring.\n", boat->id);
     free(boat);
     
     return NULL;
 }
+
 
 int main(int argc, char *argv[]) {
     if (argc != 4) {
