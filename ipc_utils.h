@@ -42,7 +42,7 @@ typedef struct {
 pthread_mutex_t* create_mutex();
 
 // Function to create and initialize a boat
-Boat* create_boat(int seats_per_boat);
+Boat* create_boat(int seats_per_boat, int id);
 
 // Function to create and initialize a fleet
 Fleet* create_fleet(int num_boats, int seats_per_boat);
