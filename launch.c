@@ -27,9 +27,9 @@ void *boat_function(int id) {
             printf("Boat %d is full, heading to the island.\n", boat->id);
 
             // Usar el lock para actualizar la variable compartida `passengers_saved`
-            pthread_mutex_lock(savedLck);
+            pthread_mutex_lock(&savedLck);
             passangers_saved += seats_per_boat;
-            pthread_mutex_unlock(savedLck);
+            pthread_mutex_unlock(&savedLck);
 
             printf("Boat %d is reloading its seats\n", boat->id);
 
