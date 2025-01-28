@@ -7,7 +7,7 @@
 #define MAX_PASSENGERS 100
 
 // Mutex for capacity
-pthread_mutex_t* capacityMutex;
+extern pthread_mutex_t* capacityMutex;
 // Function to create a passenger
 Passenger* create_passenger();
 // Function to select a random boat

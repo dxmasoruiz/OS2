@@ -13,7 +13,7 @@ int num_passengers;
 int num_boats;
 int seats_per_boat;
 int passangers_saved;
-pthread_mutex_t *savedLck;
+pthread_mutex_t* savedLck;
 
 void *boat_function() {
     Boat* boat = create_boat(seats_per_boat);
@@ -32,7 +32,7 @@ void *boat_function() {
             //Here the boat comes from th eisland ready to pick up more passengers
             // I adjust th esemafore to thr max value and althoug it should b 0 i in case check the current value for errors
             sem_getvalue(&boat->semaphore,current_value);
-            int value = current_value ;
+            int value = *current_value ;
             while (value < seats_per_boat) {
             sem_post(&boat->semaphore);
             value++;

@@ -26,6 +26,8 @@ typedef struct {
 } Fleet;
 
 extern Fleet* fleet;
+
+
 // Boat structure
 
 typedef struct {

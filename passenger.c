@@ -10,11 +10,6 @@
 #define MAX_PASSENGERS 100
 
 
-pthread_mutex_t* capacityMutex ;
-
-
-
-
 Passenger* create_passenger() {
     Passenger *passenger = (Passenger *)malloc(sizeof(Passenger));
     if (passenger == NULL) {
@@ -82,9 +77,3 @@ void *passenger_process() {
     free(passenger);
     return NULL;   
 }
-
-int main() {
-    return 0;
-}
-
-   
