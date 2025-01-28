@@ -1,35 +1,35 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -O2 -pthread
 
-# Source files
+# Archivos fuente
 SRC_FILES = ipc_utils.c passenger.c launch.c
 HDR_FILES = ipc_utils.h passenger.h
 
-# Object files (corresponding to the source files)
+# Archivos objeto correspondientes a los archivos fuente
 OBJ_FILES = ipc_utils.o passenger.o launch.o
 
-# Executable target
+# Objetivo final (ejecutable)
 TARGET = exercise2
 
-# Default target: Build the executable
+# Objetivo por defecto: construir el ejecutable
 all: $(TARGET)
 
-# Link object files to create the executable
+# Enlazar archivos objeto para crear el ejecutable
 $(TARGET): $(OBJ_FILES)
-    $(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Compile source files into object files
+# Compilar los archivos fuente en archivos objeto
 ipc_utils.o: ipc_utils.c ipc_utils.h
-    $(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 passenger.o: passenger.c passenger.h ipc_utils.h
-    $(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 launch.o: launch.c ipc_utils.h passenger.h
-    $(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-# Clean up build artifacts
+# Limpiar los archivos generados
 clean:
-    rm -f $(OBJ_FILES) $(TARGET)
+	rm -f $(OBJ_FILES) $(TARGET)
 
 .PHONY: all clean

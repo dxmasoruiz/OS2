@@ -9,6 +9,8 @@
 
 #define MAX_PASSENGERS 100
 
+// Mutex for capacity
+pthread_mutex_t* capacityMutex;
 
 Passenger* create_passenger() {
     Passenger *passenger = (Passenger *)malloc(sizeof(Passenger));
