@@ -1,4 +1,4 @@
-ifndef PASSENGER_H
+#ifndef PASSENGER_H
 #define PASSENGER_H
 
 #include <pthread.h>

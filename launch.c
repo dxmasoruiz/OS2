@@ -15,6 +15,7 @@ int passangers_saved;
 pthread_mutex_t *savedLck;
 
 void *boat_function() {
+    create_boat(seats_per_boat);
     add_boat_to_fleet(fleet, boat);
     int* current_value; 
 
@@ -29,7 +30,7 @@ void *boat_function() {
             pthread_mutex_unlock(savedLck);
             //Here the boat comes from th eisland ready to pick up more passengers
             // I adjust th esemafore to thr max value and althoug it should b 0 i in case check the current value for errors
-            sem_getvalue(&boat->semaphore, current_value);  
+            sem_getvalue(&boat->semaphore, &current_value);  
             while (current_value < seats_per_boat) {
             sem_post(&boat->semaphore);
             current_value++;
@@ -39,7 +40,7 @@ void *boat_function() {
             boat->available = 1;
         }
     }
-    printf("Boat %d has helped saving  all passengers and is retiring.\n"),;
+    printf("Boat %d has helped saving  all passengers and is retiring.\n");
     free(boat);
     
     return NULL;
@@ -69,7 +70,7 @@ int main(int argc, char *argv[]) {
 
     // Create boat threads
     for (int i = 0; i < num_boats; i++) {
-        if (pthread_create(&boat_threads[i], NULL, boat_function, NULL) != 0)) {
+        if (pthread_create(&boat_threads[i], NULL, boat_function, NULL) != 0) {
             perror("Failed to create boat thread");
             return EXIT_FAILURE;
         }

@@ -1,5 +1,7 @@
 #include "ipc_utils.h"
 
+Fleet* fleet = NULL;
+
 pthread_mutex_t* create_mutex() {
     pthread_mutex_t *mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
     if (mutex == NULL) {
@@ -16,7 +18,7 @@ pthread_mutex_t* create_mutex() {
     return mutex;
 }
 
-Boat* create_boat() {
+Boat* create_boat(int seats_per_boat) {
     Boat *boat = (Boat *)malloc(sizeof(Boat));
     if (boat == NULL) {
         perror("Failed to allocate memory for boat");
@@ -50,11 +52,11 @@ Fleet* create_fleet(int num_boats, int seats_per_boat) {
     }
 
     for (int i = 0; i < num_boats; i++) {
-        fleet->boats[i] = create_boat(i, seats_per_boat);
+        fleet->boats[i] = create_boat(seats_per_boat);
     }
 
     fleet->num_boats = num_boats;
-    fleet->mutex = *create_mutex();
+    fleet->mutex = create_mutex();
 
     return fleet;
 }

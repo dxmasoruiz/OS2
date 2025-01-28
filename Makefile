@@ -1,43 +1,32 @@
 # Makefile for the rescue-operation project
 
-# Compiler
+# Compiler and flags
 CC = gcc
-
-# Directories
-SRC_DIR = ../src
-OBJ_DIR = ../obj
-BIN_DIR = ../bin
+CFLAGS = -Wall -Wextra -O2 -pthread
 
 # Source files
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES = ipc_utils.c passenger.c launch.c
+HDR_FILES = ipc_utils.h passenger.h
 
-# Object files
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+# Object files (corresponding to the source files)
+OBJ_FILES = $(SRC_FILES:.c=.o)
 
-# Executable
-TARGET = $(BIN_DIR)/exercise2
+# Executable target
+TARGET = ex2
 
-# Compiler flags
-CFLAGS = -Wall -Wextra -O2
-
-# Linker flags
-LDFLAGS =
-
-# Default target
+# Default target: Build the executable
 all: $(TARGET)
 
-# Build the executable
+# Link object files to create the executable
 $(TARGET): $(OBJ_FILES)
-	@mkdir -p $(BIN_DIR)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Build object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
+# Compile source files into object files
+%.o: %.c $(HDR_FILES)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-# Clean up
+# Clean up build artifacts
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -f $(OBJ_FILES) $(TARGET)
 
 .PHONY: all clean

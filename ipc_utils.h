@@ -6,10 +6,9 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
-#include <passenger.h>
 #include "passenger.h"
 
-#define Fleet *fleet;
+extern Fleet* fleet;
 
 
 // Passenger structure
@@ -38,7 +37,7 @@ typedef struct {
 pthread_mutex_t* create_mutex();
 
 // Function to create and initialize a boat
-Boat* create_boat(int id, int capacity);
+Boat* create_boat(int seats_per_boat);
 
 // Function to create and initialize a fleet
 Fleet* create_fleet(int num_boats, int seats_per_boat);
