@@ -6,10 +6,6 @@
 
 #define MAX_PASSENGERS 100
 
-typedef struct {
-    int id;
-    int wants_to_board;
-} Passenger;
 
 // Function to create a passenger
 Passenger* create_passenger();

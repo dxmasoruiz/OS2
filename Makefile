@@ -9,7 +9,7 @@ SRC_FILES = ipc_utils.c passenger.c launch.c
 HDR_FILES = ipc_utils.h passenger.h
 
 # Object files (corresponding to the source files)
-OBJ_FILES = $(SRC_FILES:.c=.o)
+OBJ_FILES = ipc_utils.o passenger.o launch.o
 
 # Executable target
 TARGET = ex2
@@ -22,7 +22,13 @@ $(TARGET): $(OBJ_FILES)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # Compile source files into object files
-%.o: %.c $(HDR_FILES)
+ipc_utils.o: ipc_utils.c $(HDR_FILES)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+passenger.o: passenger.c $(HDR_FILES) ipc_utils.o
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+launch.o: launch.c $(HDR_FILES) ipc_utils.o
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Clean up build artifacts

@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <unistd.h>
-#include "passenger.h"
+
 
 // Boat structure   
 typedef struct {
@@ -28,6 +28,10 @@ typedef struct {
 extern Fleet* fleet;
 // Boat structure
 
+typedef struct {
+    int id;
+    int wants_to_board;
+} Passenger;
 
 
 
