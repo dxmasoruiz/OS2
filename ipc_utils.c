@@ -1,6 +1,5 @@
 #include "ipc_utils.h"
 
-Fleet* fleet = NULL;
 
 pthread_mutex_t* create_mutex() {
     pthread_mutex_t *mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));

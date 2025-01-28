@@ -10,7 +10,14 @@
 
 extern Fleet* fleet;
 
+// Fleet structure
+typedef struct {
+    Boat** boats;
+    int num_boats;
+    pthread_mutex_t* mutex;
+} Fleet;
 
+extern Fleet* fleet;
 // Passenger structure
 typedef struct {
     int id;
@@ -26,12 +33,10 @@ typedef struct {
     int in_fleet;
 } Boat;
 
-// Fleet structure
-typedef struct {
-    Boat** boats;
-    int num_boats;
-    pthread_mutex_t mutex;
-} Fleet;
+
+
+
+
 
 // Function to create and initialize a mutex
 pthread_mutex_t* create_mutex();

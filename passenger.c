@@ -11,10 +11,6 @@
 pthread_mutex_t* boardMutex = create_Mutex();
 pthread_mutex_t* capacityMutex = create_Mutex();
 
-typedef struct {
-    int id;
-    int wants_to_board;
-} Passenger;
 
 
 
