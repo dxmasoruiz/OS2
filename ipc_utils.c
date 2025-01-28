@@ -19,7 +19,7 @@ pthread_mutex_t* create_mutex() {
     return mutex;
 }
 
-Boat* create_boat(int seats_per_boat) {
+Boat* create_boat(int seats_per_boat, int id) {
     Boat *boat = (Boat *)malloc(sizeof(Boat));
     if (boat == NULL) {
         perror("Failed to allocate memory for boat");
@@ -33,7 +33,7 @@ Boat* create_boat(int seats_per_boat) {
 
     boat->capacity = seats_per_boat;
     boat->available = 0;
-    boat->id = (int) pthread_self();
+    boat->id = id;
 
     return boat;
 }

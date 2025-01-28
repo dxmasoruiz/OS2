@@ -15,8 +15,8 @@ int seats_per_boat;
 int passangers_saved;
 pthread_mutex_t* savedLck;
 
-void *boat_function() {
-    Boat* boat = create_boat(seats_per_boat);
+void *boat_function(int id) {
+    Boat* boat = create_boat(seats_per_boat, id);
     add_boat_to_fleet(fleet, boat);
     int* current_value; 
 
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     printf("Launching %d boats with %d seats each to save %d passengers.\n", num_boats, seats_per_boat, num_passengers);
     // Create boat threads
     for (int i = 0; i < num_boats; i++) {
-        if (pthread_create(&boat_threads[i], NULL, boat_function, NULL) != 0) {
+        if (pthread_create(&boat_threads[i], NULL, boat_function, i) != 0) {
             perror("Failed to create boat thread");
             return EXIT_FAILURE;
         }
