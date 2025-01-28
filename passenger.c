@@ -10,7 +10,7 @@
 #define MAX_PASSENGERS 100
 
 
-pthread_mutex_t* capacityMutex = create_mutex();
+pthread_mutex_t* capacityMutex ;
 
 
 
@@ -74,7 +74,10 @@ void search_available_boat(Fleet* fleet) {
 }
 
 void *passenger_process() {
-    Passenger* passenger = create_passenger();
+    Passenger* passenger = create_passenger(); 
+    if (capacityMutex == NULL) {
+        capacityMutex = create_mutex();
+    }
     search_available_boat(fleet);
     free(passenger);
     return NULL;   
@@ -83,3 +86,5 @@ void *passenger_process() {
 int main() {
     return 0;
 }
+
+   
