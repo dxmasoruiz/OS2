@@ -13,7 +13,7 @@ int num_passengers;
 int num_boats;
 int seats_per_boat;
 int passangers_saved;
-pthread_mutex_t* savedLck;
+pthread_mutex_t savedLck;
 
 void *boat_function(int id) {
     // Crear un nuevo barco
@@ -30,6 +30,8 @@ void *boat_function(int id) {
             pthread_mutex_lock(savedLck);
             passangers_saved += seats_per_boat;
             pthread_mutex_unlock(savedLck);
+
+            printf("Boat %d is reloading its seats\n", boat->id);
 
             // Aquí el barco regresa de la isla listo para recoger más pasajeros
             // Ajustar el semáforo al valor máximo (seats_per_boat)
@@ -69,7 +71,10 @@ int main(int argc, char *argv[]) {
     seats_per_boat = atoi(argv[3]);
     passangers_saved=0;
     fleet = create_fleet(num_boats, seats_per_boat);
-    pthread_mutex_t* savedLck = create_mutex();
+     if (pthread_mutex_init(&savedLck, NULL) != 0) {
+        perror("Failed to initialize savedLck mutex");
+        return EXIT_FAILURE;
+    }
 
     if (num_passengers > MAX_PASSENGERS || num_boats > MAX_BOATS || seats_per_boat <= 0) {
         fprintf(stderr, "Invalid input parameters too many boats or passengers.\n");
