@@ -8,6 +8,15 @@
 #include <unistd.h>
 #include "passenger.h"
 
+// Boat structure   
+typedef struct {
+    sem_t semaphore;
+    int capacity;
+    int available;
+    int id;
+    int in_fleet;
+} Boat;
+
 
 // Fleet structure
 typedef struct {
@@ -18,14 +27,6 @@ typedef struct {
 
 extern Fleet* fleet;
 // Boat structure
-typedef struct {
-    sem_t semaphore;
-    int capacity;
-    int available;
-    int id;
-    int in_fleet;
-} Boat;
-
 
 
 
