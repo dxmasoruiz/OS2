@@ -52,8 +52,9 @@ Fleet* create_fleet(int num_boats, int seats_per_boat) {
         exit(EXIT_FAILURE);
     }
 
+    // Initialize all elements of the boats array to NULL
     for (int i = 0; i < num_boats; i++) {
-        fleet->boats[i] = create_boat(seats_per_boat);
+        fleet->boats[i] = NULL;
     }
 
     fleet->num_boats = num_boats;
