@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "ipc_utils.h"
+#include "passenger.h"
 
 #define MAX_BOATS 10
 #define MAX_PASSENGERS 100
@@ -15,7 +16,7 @@ int passangers_saved;
 pthread_mutex_t *savedLck;
 
 void *boat_function() {
-    create_boat(seats_per_boat);
+    Boat* boat = create_boat(seats_per_boat);
     add_boat_to_fleet(fleet, boat);
     int* current_value; 
 
@@ -30,10 +31,11 @@ void *boat_function() {
             pthread_mutex_unlock(savedLck);
             //Here the boat comes from th eisland ready to pick up more passengers
             // I adjust th esemafore to thr max value and althoug it should b 0 i in case check the current value for errors
-            sem_getvalue(&boat->semaphore, &current_value);  
-            while (current_value < seats_per_boat) {
+            sem_getvalue(&boat->semaphore,current_value);
+            int value = current_value  
+            while (value < seats_per_boat) {
             sem_post(&boat->semaphore);
-            current_value++;
+            value++;
             } 
             boat->capacity = seats_per_boat; // Reset capacity for the next trip
             printf("Boat %d has returned and is ready to board more passengers.\n",boat->id);

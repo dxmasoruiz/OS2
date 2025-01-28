@@ -31,7 +31,7 @@ Boat* create_boat(int seats_per_boat) {
 
     boat->capacity = seats_per_boat;
     boat->available = 0;
-    boat->id = pthread_self();
+    boat->id = (int)(uintptr_t)tid;
 
     return boat;
 }
