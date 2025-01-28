@@ -8,7 +8,8 @@
 #include "ipc_utils.h"
 
 #define MAX_PASSENGERS 100
-pthread_mutex_t* boardMutex = create_mutex();
+
+
 pthread_mutex_t* capacityMutex = create_mutex();
 
 
@@ -49,17 +50,17 @@ void search_available_boat(Fleet* fleet) {
             sem_wait(&selectedBoat->semaphore);
             if (selectedBoat->available==1)
             {
-                pthread_mutex_lock(&capacityMutex);
+                pthread_mutex_lock(capacityMutex);
                 selectedBoat->capacity--;
-                pthread_mutex_unlock(&capacityMutex);   
-                printf("Passenger is boarding boat %d. Remaining capacity: %d\n", boat->id, selectedBoat->capacity);
+                pthread_mutex_unlock(capacityMutex);   
+                printf("Passenger is boarding boat %d. Remaining capacity: %d\n", selectedBoat->id, selectedBoat->capacity);
             }else{
             printf("Boat is occupied returning");
             selectedBoat = NULL;
             }
          
         }else {
-            printf("Passenger %d decided not to board boat %d\n", pthread_self(), selectedBoat->id);
+            printf("Passenger decided not to board boat %d\n", selectedBoat->id);
         }
         
         
@@ -72,7 +73,7 @@ void search_available_boat(Fleet* fleet) {
     }
 }
 
-void *passenger_process(void *arg) {
+void *passenger_process() {
     Passenger* passenger = create_passenger();
     search_available_boat(fleet);
     free(passenger);
