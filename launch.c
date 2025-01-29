@@ -22,7 +22,7 @@ void *boat_function(int id) {
 
     while (passangers_saved < num_passengers) {
         // Si el barco está lleno
-        if (boat->capacity == 0) {
+        if (boat->capacity == 0 || num_passengers-passangers_saved <= seats_per_boat) {
             boat->available = 0;
             printf("Boat %d is full, heading to the island.\n", boat->id);
 
